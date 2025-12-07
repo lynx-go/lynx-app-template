@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package artizard.config;
+
+option go_package = "github.com/lynx-go/lynx-template/internal/pkg/config;configpb";
+
+message AppConfig {
+  Server server = 1;
+}
+
+message Server {
+  Http http = 1;
+}
+
+message Http {
+  string addr = 1;
+  string timeout = 2;
+}
