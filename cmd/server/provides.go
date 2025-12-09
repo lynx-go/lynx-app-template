@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/go-viper/mapstructure/v2"
 	"github.com/google/wire"
 	"github.com/lynx-go/lynx"
 	"github.com/lynx-go/lynx-app-template/internal/api"
@@ -9,6 +8,7 @@ import (
 	configpb "github.com/lynx-go/lynx-app-template/internal/pkg/config"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
 	"github.com/lynx-go/lynx/boot"
+	"github.com/lynx-go/lynx/contrib/kafka"
 	"github.com/lynx-go/lynx/contrib/schedule"
 	"github.com/lynx-go/lynx/server/http"
 )
@@ -29,9 +29,7 @@ var ProviderSet = wire.NewSet(
 
 func NewConfig(app lynx.Lynx) (*configpb.AppConfig, error) {
 	var c configpb.AppConfig
-	if err := app.Config().Unmarshal(&c, func(config *mapstructure.DecoderConfig) {
-		config.TagName = "json"
-	}); err != nil {
+	if err := app.Config().Unmarshal(&c, lynx.TagNameJSON); err != nil {
 		return nil, err
 	}
 	return &c, nil
@@ -45,11 +43,13 @@ func NewComponents(
 	httpServer *http.Server,
 	scheduler *schedule.Scheduler,
 	broker *pubsub.PubSub,
+	binder *kafka.Binder,
 ) []lynx.Component {
 	return []lynx.Component{
 		scheduler,
 		broker,
 		httpServer,
+		binder,
 	}
 }
 
@@ -67,6 +67,10 @@ func NewOnStops() lynx.OnStopHooks {
 	return hooks
 }
 
-func NewComponentBuilders() []lynx.ComponentBuilder {
-	return []lynx.ComponentBuilder{}
+func NewComponentBuilders(
+	binder *kafka.Binder,
+) []lynx.ComponentBuilder {
+	builders := []lynx.ComponentBuilder{}
+	builders = append(builders, binder.Builders()...)
+	return builders
 }

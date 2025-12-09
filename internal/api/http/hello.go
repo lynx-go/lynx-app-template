@@ -6,6 +6,7 @@ import (
 
 	"github.com/lynx-go/lynx-app-template/internal/domain/events"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
+	"github.com/lynx-go/lynx/contrib/kafka"
 	"github.com/lynx-go/x/log"
 )
 
@@ -28,11 +29,11 @@ type HelloResult struct {
 }
 
 func (api *HelloAPI) Hello(ctx context.Context, req *HelloRequest) (*HelloResult, error) {
-	if err := api.pubsub.Publish(ctx, "demo", &events.DemoEvent{
+	if err := api.pubsub.Publish(ctx, kafka.ToProducerName("hello"), &events.HelloEvent{
 		Message: req.Message,
 		Time:    time.Now(),
 	}); err != nil {
-		log.ErrorContext(ctx, "failed to publish demo event", err)
+		log.ErrorContext(ctx, "failed to publish hello event", err)
 	}
 	return &HelloResult{Message: "Hello " + req.Message}, nil
 }

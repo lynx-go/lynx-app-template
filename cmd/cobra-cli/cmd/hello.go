@@ -5,13 +5,12 @@ package cmd
 
 import (
 	"context"
+	"time"
 
-	"github.com/lynx-go/lynx"
-	"github.com/lynx-go/lynx/contrib/zap"
+	"github.com/lynx-go/lynx-app-template/internal/domain/events"
+	"github.com/lynx-go/lynx/contrib/kafka"
 	"github.com/lynx-go/x/log"
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
 )
 
 // helloCmd represents the hello command
@@ -26,35 +25,20 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		cli := buildCli(cmd, args, func(ctx context.Context, app lynx.Lynx, cmd *cobra.Command, args []string) error {
-			toUid, _ := cmd.Flags().GetInt("to")
+		cli := buildCli(cmd, args, func(ctx context.Context, appCtx *AppContext, cmdArgs *CmdArgs) error {
+			toUid, _ := cmdArgs.Cmd.Flags().GetInt("to")
+			if err := appCtx.PubSub.Publish(ctx, kafka.ToProducerName("hello"), &events.HelloEvent{
+				Message: "Hello " + args[0],
+				Time:    time.Now(),
+			}); err != nil {
+				log.ErrorContext(ctx, "publish hello event error", err)
+			}
 			log.InfoContext(ctx, "hello lynx cli", "args", args, "to_uid", toUid)
+			//time.Sleep(1 * time.Second)
 			return nil
 		})
 		cli.Run()
 	},
-}
-
-func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, app lynx.Lynx, cmd *cobra.Command, args []string) error) *lynx.CLI {
-	return lynx.New(newOptionsFromCmd(cmd), func(ctx context.Context, app lynx.Lynx) error {
-		app.SetLogger(zap.MustNewLogger(app))
-
-		return app.CLI(func(ctx context.Context) error {
-			return fn(ctx, app, cmd, args)
-		})
-	})
-}
-func newOptionsFromCmd(cmd *cobra.Command) *lynx.Options {
-	return lynx.NewOptions(
-		lynx.WithName(cmd.Root().Name()+":"+cmd.Name()),
-		lynx.WithBindConfigFunc(func(f *pflag.FlagSet, v *viper.Viper) error {
-			if cd, _ := cmd.Root().PersistentFlags().GetString("config-dir"); cd != "" {
-				v.AddConfigPath(cd)
-			}
-
-			return nil
-		}),
-	)
 }
 
 func init() {

@@ -10,5 +10,5 @@ import (
 var ProviderSet = wire.NewSet(
 	http.NewHelloAPI,
 	tasks.NewDemoTask,
-	events.NewDemoHandler,
+	events.NewHelloHandler,
 )

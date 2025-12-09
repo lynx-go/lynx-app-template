@@ -11,4 +11,5 @@ var ProviderSet = wire.NewSet(
 	server.NewScheduler,
 	server.NewPubSub,
 	server.NewPubSubRouter,
+	server.NewPubSubBinderForServer,
 )

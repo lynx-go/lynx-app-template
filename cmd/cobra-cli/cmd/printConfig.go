@@ -23,9 +23,9 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cli := buildCli(cmd, args, func(ctx context.Context, app lynx.Lynx, cmd *cobra.Command, args []string) error {
+		cli := buildCli(cmd, args, func(ctx context.Context, appCtx *AppContext, cmdArgs *CmdArgs) error {
 			config := map[string]any{}
-			if err := app.Config().Unmarshal(&config); err != nil {
+			if err := appCtx.App.Config().Unmarshal(&config, lynx.TagNameJSON); err != nil {
 				return err
 			}
 			log.InfoContext(ctx, "print config", "configs", json.MustMarshalToString(config))

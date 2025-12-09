@@ -6,6 +6,8 @@ option go_package = "github.com/lynx-go/lynx-app-template/internal/pkg/config;co
 
 message AppConfig {
   Server server = 1;
+  Data data = 2;
+  PubSub pubsub = 3;
 }
 
 message Server {
@@ -15,4 +17,31 @@ message Server {
 message Http {
   string addr = 1;
   string timeout = 2;
+}
+
+message Data {
+
+}
+
+message PubSub {
+  map<string, Kafka> kafka = 1;
+}
+
+message Kafka {
+  message Consumer {
+    string group_id = 1;
+    int32 start_offset = 2;
+    int32 instances = 3;
+    bool log_message = 4;
+  }
+
+  message Producer {
+    int32 acks = 1;
+    bool log_message = 2;
+  }
+
+  repeated string brokers = 1;
+  string topic = 2;
+  Consumer consumer = 3;
+  Producer producer = 4;
 }

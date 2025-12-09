@@ -23,8 +23,8 @@ import (
 
 func wireBootstrap(app lynx.Lynx, slogger *slog.Logger) (*boot.Bootstrap, func(), error) {
 	pubSub := server.NewPubSub()
-	demoHandler := events.NewDemoHandler()
-	router := server.NewPubSubRouter(pubSub, demoHandler)
+	helloHandler := events.NewHelloHandler()
+	router := server.NewPubSubRouter(pubSub, helloHandler)
 	onStartHooks := NewOnStarts(router)
 	onStopHooks := NewOnStops()
 	appConfig, err := NewConfig(app)
@@ -38,8 +38,9 @@ func wireBootstrap(app lynx.Lynx, slogger *slog.Logger) (*boot.Bootstrap, func()
 	if err != nil {
 		return nil, nil, err
 	}
-	v := NewComponents(httpServer, scheduler, pubSub)
-	v2 := NewComponentBuilders()
+	binder := server.NewPubSubBinderForServer(pubSub, appConfig)
+	v := NewComponents(httpServer, scheduler, pubSub, binder)
+	v2 := NewComponentBuilders(binder)
 	bootstrap := boot.New(onStartHooks, onStopHooks, v, v2)
 	return bootstrap, func() {
 	}, nil
