@@ -47,7 +47,8 @@ to quickly create a Cobra application.`,
 			log.InfoContext(ctx, "load config", "config_dump", json.MustMarshalToString(config))
 
 			return app.CLI(func(ctx context.Context) error {
-				log.InfoContext(ctx, "hello lynx cli", "args", args)
+				toUid, _ := cmd.Flags().GetInt("to")
+				log.InfoContext(ctx, "hello lynx cli", "args", args, "to_uid", toUid)
 				return nil
 			})
 		})
@@ -67,4 +68,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// helloCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	helloCmd.Flags().IntP("to", "t", 0, "hello to uid")
 }
