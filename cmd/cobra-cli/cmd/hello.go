@@ -27,27 +27,33 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		cli := lynx.New(newOptionsFromCmd(cmd), func(ctx context.Context, app lynx.Lynx) error {
-			app.SetLogger(zap.MustNewLogger(app))
-			config := map[string]any{}
-			if err := app.Config().Unmarshal(&config); err != nil {
-				return err
-			}
-			log.InfoContext(ctx, "load config", "config_dump", json.MustMarshalToString(config))
-
-			return app.CLI(func(ctx context.Context) error {
-				toUid, _ := cmd.Flags().GetInt("to")
-				log.InfoContext(ctx, "hello lynx cli", "args", args, "to_uid", toUid)
-				return nil
-			})
+		cli := buildCli(cmd, args, func(ctx context.Context, app lynx.Lynx, cmd *cobra.Command, args []string) error {
+			toUid, _ := cmd.Flags().GetInt("to")
+			log.InfoContext(ctx, "hello lynx cli", "args", args, "to_uid", toUid)
+			return nil
 		})
 		cli.Run()
 	},
 }
 
+func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, app lynx.Lynx, cmd *cobra.Command, args []string) error) *lynx.CLI {
+	return lynx.New(newOptionsFromCmd(cmd), func(ctx context.Context, app lynx.Lynx) error {
+		app.SetLogger(zap.MustNewLogger(app))
+		config := map[string]any{}
+		if err := app.Config().Unmarshal(&config); err != nil {
+			return err
+		}
+		log.InfoContext(ctx, "load config", "config_dump", json.MustMarshalToString(config))
+
+		return app.CLI(func(ctx context.Context) error {
+			return fn(ctx, app, cmd, args)
+
+		})
+	})
+}
 func newOptionsFromCmd(cmd *cobra.Command) *lynx.Options {
 	return lynx.NewOptions(
-		lynx.WithName(cmd.Root().Name()+"-"+cmd.Name()),
+		lynx.WithName(cmd.Root().Name()+":"+cmd.Name()),
 		lynx.WithBindConfigFunc(func(f *pflag.FlagSet, v *viper.Viper) error {
 			if cd, _ := cmd.Root().PersistentFlags().GetString("config-dir"); cd != "" {
 				v.AddConfigPath(cd)
