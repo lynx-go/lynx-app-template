@@ -9,6 +9,7 @@ import (
 	configpb "github.com/lynx-go/lynx-app-template/internal/pkg/config"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
 	"github.com/lynx-go/lynx/contrib/zap"
+	"github.com/lynx-go/x/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -43,6 +44,7 @@ func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, ap
 				return err
 			}
 			// wait pubsub completed
+			log.InfoContext(ctx, "waiting 1 seconds for pubsub completed")
 			time.Sleep(1 * time.Second)
 			return nil
 		})
