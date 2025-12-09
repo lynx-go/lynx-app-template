@@ -28,7 +28,7 @@ func NewKafkaBinderForServer(pubsub *pubsub.PubSub, config *configpb.AppConfig) 
 }
 
 func NewKafkaBinderForCli(pubsub *pubsub.PubSub, config *configpb.AppConfig) *kafka.Binder {
-	return NewKafkaBinder(pubsub, config, false)
+	return NewKafkaBinder(pubsub, config, true)
 }
 
 func NewKafkaBinder(pubsub *pubsub.PubSub, config *configpb.AppConfig, disableSub bool) *kafka.Binder {
