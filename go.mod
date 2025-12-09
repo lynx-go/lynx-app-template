@@ -6,14 +6,14 @@ require (
 	github.com/ThreeDotsLabs/watermill v1.5.1
 	github.com/cloudevents/sdk-go/v2 v2.16.2
 	github.com/go-viper/mapstructure/v2 v2.4.0
-	github.com/golang-jwt/jwt/v5 v5.2.3
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.7.0
 	github.com/jackc/pgx/v5 v5.7.6
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/lynx-go/lynx v0.4.3
-	github.com/lynx-go/lynx/contrib/pubsub v0.4.1
-	github.com/lynx-go/lynx/contrib/schedule v0.4.1
+	github.com/lynx-go/lynx/contrib/pubsub v0.4.2
+	github.com/lynx-go/lynx/contrib/schedule v0.4.2
 	github.com/lynx-go/lynx/contrib/zap v0.4.2
 	github.com/lynx-go/x v0.0.5
 	github.com/samber/lo v1.52.0
