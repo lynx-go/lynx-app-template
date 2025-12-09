@@ -28,7 +28,7 @@ to quickly create a Cobra application.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		opts := lynx.NewOptions(
-			lynx.WithName("lynx-cobra-cli"),
+			lynx.WithName(cmd.Root().Name()+"-"+cmd.Name()),
 			lynx.WithBindConfigFunc(func(f *pflag.FlagSet, v *viper.Viper) error {
 				if cd, _ := cmd.Root().PersistentFlags().GetString("config-dir"); cd != "" {
 					v.AddConfigPath(cd)
