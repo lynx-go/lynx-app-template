@@ -27,7 +27,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		cli := lynx.New(newOptions(cmd), func(ctx context.Context, app lynx.Lynx) error {
+		cli := lynx.New(newOptionsFromCmd(cmd), func(ctx context.Context, app lynx.Lynx) error {
 			app.SetLogger(zap.MustNewLogger(app))
 			config := map[string]any{}
 			if err := app.Config().Unmarshal(&config); err != nil {
@@ -45,7 +45,7 @@ to quickly create a Cobra application.`,
 	},
 }
 
-func newOptions(cmd *cobra.Command) *lynx.Options {
+func newOptionsFromCmd(cmd *cobra.Command) *lynx.Options {
 	return lynx.NewOptions(
 		lynx.WithName(cmd.Root().Name()+"-"+cmd.Name()),
 		lynx.WithBindConfigFunc(func(f *pflag.FlagSet, v *viper.Viper) error {
