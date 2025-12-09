@@ -34,7 +34,7 @@ func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, ap
 		}
 		pubSub := server.NewPubSub()
 		// CLI 禁用 kafka 监听
-		binder := server.NewKafkaBinder(pubSub, config, true)
+		binder := server.NewKafkaBinderForCli(pubSub, config)
 		if err := app.Hook(lynx.Components(pubSub, binder), lynx.ComponentBuilders(binder.Builders()...)); err != nil {
 			return err
 		}

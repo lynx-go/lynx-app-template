@@ -23,9 +23,12 @@ func NewPubSubRouter(
 	})
 }
 
-func NewPubSubBinderForServer(pubsub *pubsub.PubSub, config *configpb.AppConfig) *kafka.Binder {
+func NewKafkaBinderForServer(pubsub *pubsub.PubSub, config *configpb.AppConfig) *kafka.Binder {
 	return NewKafkaBinder(pubsub, config, false)
+}
 
+func NewKafkaBinderForCli(pubsub *pubsub.PubSub, config *configpb.AppConfig) *kafka.Binder {
+	return NewKafkaBinder(pubsub, config, false)
 }
 
 func NewKafkaBinder(pubsub *pubsub.PubSub, config *configpb.AppConfig, disableSub bool) *kafka.Binder {

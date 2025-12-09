@@ -38,7 +38,7 @@ func wireBootstrap(app lynx.Lynx, slogger *slog.Logger) (*boot.Bootstrap, func()
 	if err != nil {
 		return nil, nil, err
 	}
-	binder := server.NewPubSubBinderForServer(pubSub, appConfig)
+	binder := server.NewKafkaBinderForServer(pubSub, appConfig)
 	v := NewComponents(httpServer, scheduler, pubSub, binder)
 	v2 := NewComponentBuilders(binder)
 	bootstrap := boot.New(onStartHooks, onStopHooks, v, v2)
