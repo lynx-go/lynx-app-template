@@ -8,7 +8,6 @@ import (
 
 	"github.com/lynx-go/lynx"
 	"github.com/lynx-go/lynx/contrib/zap"
-	"github.com/lynx-go/x/encoding/json"
 	"github.com/lynx-go/x/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -39,15 +38,9 @@ to quickly create a Cobra application.`,
 func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, app lynx.Lynx, cmd *cobra.Command, args []string) error) *lynx.CLI {
 	return lynx.New(newOptionsFromCmd(cmd), func(ctx context.Context, app lynx.Lynx) error {
 		app.SetLogger(zap.MustNewLogger(app))
-		config := map[string]any{}
-		if err := app.Config().Unmarshal(&config); err != nil {
-			return err
-		}
-		log.InfoContext(ctx, "load config", "config_dump", json.MustMarshalToString(config))
 
 		return app.CLI(func(ctx context.Context) error {
 			return fn(ctx, app, cmd, args)
-
 		})
 	})
 }
