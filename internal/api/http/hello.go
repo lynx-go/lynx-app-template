@@ -29,7 +29,7 @@ type HelloResult struct {
 }
 
 func (api *HelloAPI) Hello(ctx context.Context, req *HelloRequest) (*HelloResult, error) {
-	if err := api.pubsub.Publish(ctx, kafka.ToProducerName("hello"), &events.HelloEvent{
+	if err := api.pubsub.Publish(ctx, kafka.ToProducerName("hello"), "hello", &events.HelloEvent{
 		Message: req.Message,
 		Time:    time.Now(),
 	}); err != nil {
