@@ -25,7 +25,7 @@ type AppContext struct {
 	PubSub *pubsub.PubSub
 }
 
-func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, appCtx *AppContext, cmdArgs *CmdArgs) error) *lynx.CLI {
+func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, appCtx *AppContext, cmdArgs *CmdArgs) error, sleepDuration time.Duration) *lynx.CLI {
 	return lynx.New(newOptionsFromCmd(cmd), func(ctx context.Context, app lynx.Lynx) error {
 		app.SetLogger(zap.MustNewLogger(app))
 		config := &configpb.AppConfig{}
@@ -43,9 +43,11 @@ func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, ap
 			if err := fn(ctx, &AppContext{App: app, PubSub: pubSub}, &CmdArgs{Cmd: cmd, Args: args}); err != nil {
 				return err
 			}
-			// wait pubsub completed
-			log.InfoContext(ctx, "waiting 1 seconds for pubsub completed")
-			time.Sleep(1 * time.Second)
+			if sleepDuration > 0 {
+				// wait pubsub completed
+				log.InfoContext(ctx, "waiting 1 seconds for pubsub completed")
+				time.Sleep(sleepDuration)
+			}
 			return nil
 		})
 	})

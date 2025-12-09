@@ -30,7 +30,7 @@ to quickly create a Cobra application.`,
 			}
 			log.InfoContext(ctx, "print config", "configs", json.MustMarshalToString(config))
 			return nil
-		})
+		}, 0)
 		cli.Run()
 	},
 }

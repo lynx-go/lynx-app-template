@@ -36,7 +36,7 @@ to quickly create a Cobra application.`,
 			log.InfoContext(ctx, "hello lynx cli", "args", args, "to_uid", toUid)
 			//time.Sleep(1 * time.Second)
 			return nil
-		})
+		}, 1*time.Second)
 		cli.Run()
 	},
 }
