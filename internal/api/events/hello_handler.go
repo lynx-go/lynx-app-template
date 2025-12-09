@@ -6,7 +6,6 @@ import (
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 	"github.com/lynx-go/lynx-app-template/internal/domain/events"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
-	"github.com/lynx-go/lynx/contrib/kafka"
 	"github.com/lynx-go/x/encoding/json"
 	"github.com/lynx-go/x/log"
 )
@@ -15,7 +14,7 @@ type HelloHandler struct {
 }
 
 func (h *HelloHandler) EventName() string {
-	return kafka.ToConsumerName("hello")
+	return events.ConsumerNameHello
 }
 
 func (h *HelloHandler) HandlerName() string {

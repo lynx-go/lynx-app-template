@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/lynx-go/lynx-app-template/internal/domain/events"
-	"github.com/lynx-go/lynx/contrib/kafka"
 	"github.com/lynx-go/x/log"
 	"github.com/spf13/cobra"
 )
@@ -27,7 +26,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cli := buildCli(cmd, args, func(ctx context.Context, appCtx *AppContext, cmdArgs *CmdArgs) error {
 			toUid, _ := cmdArgs.Cmd.Flags().GetInt("to")
-			if err := appCtx.PubSub.Publish(ctx, kafka.ToProducerName("hello"), "hello", &events.HelloEvent{
+			if err := appCtx.PubSub.Publish(ctx, events.ProducerNameHello, "hello", &events.HelloEvent{
 				Message: "Hello " + args[0],
 				Time:    time.Now(),
 			}); err != nil {
