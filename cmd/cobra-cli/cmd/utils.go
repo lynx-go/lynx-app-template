@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/lynx-go/lynx"
@@ -45,7 +46,7 @@ func buildCli(cmd *cobra.Command, args []string, fn func(ctx context.Context, ap
 			}
 			if sleepDuration > 0 {
 				// wait pubsub completed
-				log.InfoContext(ctx, "waiting 1 seconds for pubsub completed")
+				log.InfoContext(ctx, fmt.Sprintf("waiting %s for pubsub completed", sleepDuration.String()))
 				time.Sleep(sleepDuration)
 			}
 			return nil
