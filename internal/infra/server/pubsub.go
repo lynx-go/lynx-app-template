@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/lynx-go/lynx-template/internal/api/events"
-	"github.com/lynx-go/lynx-template/pkg/pubsub"
+	"github.com/lynx-go/lynx-app-template/internal/api/events"
+	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
 )
 
 func NewPubSub() *pubsub.PubSub {

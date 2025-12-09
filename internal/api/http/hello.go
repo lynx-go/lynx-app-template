@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/lynx-go/lynx-template/internal/domain/events"
-	"github.com/lynx-go/lynx-template/pkg/pubsub"
+	"github.com/lynx-go/lynx-app-template/internal/domain/events"
+	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
 	"github.com/lynx-go/x/log"
 )
 

@@ -7,10 +7,10 @@
 package main
 
 import (
-	"github.com/lynx-go/lynx-template/internal/api/events"
-	"github.com/lynx-go/lynx-template/internal/api/http"
-	"github.com/lynx-go/lynx-template/internal/infra/server"
 	"github.com/lynx-go/lynx"
+	"github.com/lynx-go/lynx-app-template/internal/api/events"
+	"github.com/lynx-go/lynx-app-template/internal/api/http"
+	"github.com/lynx-go/lynx-app-template/internal/infra/server"
 	"github.com/lynx-go/lynx/boot"
 	"log/slog"
 )

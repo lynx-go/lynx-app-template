@@ -2,11 +2,10 @@ package main
 
 import (
 	"context"
-	"log"
 
-	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/lynx-go/lynx"
 	"github.com/lynx-go/lynx/contrib/zap"
+	"github.com/lynx-go/x/log"
 )
 
 var (
@@ -14,25 +13,19 @@ var (
 )
 
 func main() {
+
 	opts := lynx.NewOptions(
-		lynx.WithName("lynx-app-api"),
+		lynx.WithName("lynx-app-cli"),
 		lynx.WithVersion(version),
 		lynx.WithUseDefaultConfigFlagsFunc(),
 	)
 	cli := lynx.New(opts, func(ctx context.Context, app lynx.Lynx) error {
 		app.SetLogger(zap.MustNewLogger(app))
 
-		boot, cleanup, err := wireBootstrap(app, app.Logger())
-		if err != nil {
-			log.Fatal(err)
-		}
-		if err := app.Hook(lynx.OnStop(func(ctx context.Context) error {
-			cleanup()
+		return app.CLI(func(ctx context.Context) error {
+			log.InfoContext(ctx, "hello lynx cli")
 			return nil
-		})); err != nil {
-			return err
-		}
-		return boot.Build(app)
+		})
 	})
 	cli.Run()
 }

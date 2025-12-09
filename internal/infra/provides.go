@@ -2,7 +2,7 @@ package infra
 
 import (
 	"github.com/google/wire"
-	"github.com/lynx-go/lynx-template/internal/infra/server"
+	"github.com/lynx-go/lynx-app-template/internal/infra/server"
 )
 
 var ProviderSet = wire.NewSet(

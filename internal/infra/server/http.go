@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	configpb "github.com/lynx-go/lynx-template/internal/pkg/config"
+	configpb "github.com/lynx-go/lynx-app-template/internal/pkg/config"
 	"github.com/lynx-go/lynx/server/http"
 )
 

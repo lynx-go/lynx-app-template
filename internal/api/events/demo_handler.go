@@ -4,8 +4,8 @@ import (
 	"context"
 
 	cloudevents "github.com/cloudevents/sdk-go/v2"
-	"github.com/lynx-go/lynx-template/internal/domain/events"
-	"github.com/lynx-go/lynx-template/pkg/pubsub"
+	"github.com/lynx-go/lynx-app-template/internal/domain/events"
+	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
 	"github.com/lynx-go/x/encoding/json"
 	"github.com/lynx-go/x/log"
 )

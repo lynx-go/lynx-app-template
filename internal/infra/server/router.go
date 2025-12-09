@@ -3,8 +3,8 @@ package server
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/lynx-go/lynx-template/internal/api/http"
-	"github.com/lynx-go/lynx-template/pkg/jsonapi"
+	"github.com/lynx-go/lynx-app-template/internal/api/http"
+	"github.com/lynx-go/lynx-app-template/pkg/jsonapi"
 )
 
 func NewRouter(helloApi *http.HelloAPI) *echo.Echo {

@@ -1,4 +1,4 @@
-module github.com/lynx-go/lynx-template
+module github.com/lynx-go/lynx-app-template
 
 go 1.24.2
 

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package artizard.config;
+package lynx.config;
 
-option go_package = "github.com/lynx-go/lynx-template/internal/pkg/config;configpb";
+option go_package = "github.com/lynx-go/lynx-app-template/internal/pkg/config;configpb";
 
 message AppConfig {
   Server server = 1;

@@ -1,1 +1,1 @@
-# Artizard API
+# Lynx App Template
