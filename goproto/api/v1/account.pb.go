@@ -310,7 +310,7 @@ const file_api_v1_account_proto_rawDesc = "" +
 	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\x12-\n" +
 	"\tuser_info\x18\x05 \x01(\v2\x10.api.v1.UserInfoR\buserInfo\"+\n" +
 	"\x13RefreshTokenRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05tokenB=Z;github.com/lynx-go/lynx-app-template/proto/gen/api/v1;apipbb\x06proto3"
+	"\x05token\x18\x01 \x01(\tR\x05tokenB;Z9github.com/lynx-go/lynx-app-template/goproto/api/v1;apipbb\x06proto3"
 
 var (
 	file_api_v1_account_proto_rawDescOnce sync.Once

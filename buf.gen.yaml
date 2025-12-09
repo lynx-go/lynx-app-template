@@ -1,10 +1,10 @@
 version: v2
 plugins:
   - remote: buf.build/protocolbuffers/go:v1.36.10
-    out: proto/gen
+    out: goproto
     opt:
       - paths=source_relative
 
   - remote: buf.build/grpc-ecosystem/openapiv2:v2.27.3
-    out: proto/gen
+    out: goproto
 
