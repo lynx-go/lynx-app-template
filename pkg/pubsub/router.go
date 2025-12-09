@@ -3,6 +3,7 @@ package pubsub
 import (
 	"context"
 
+	"github.com/lynx-go/lynx/contrib/pubsub"
 	"github.com/lynx-go/x/log"
 )
 
@@ -23,7 +24,12 @@ func (r *Router) Run(ctx context.Context) error {
 		h := r.handlers[i]
 		ctx := log.WithContext(ctx, "handler_name", h.HandlerName(), "event_name", h.EventName())
 		log.InfoContext(ctx, "binding handler")
-		if err := r.pubSub.Subscribe(h.EventName(), h.HandlerName(), h.HandlerFunc()); err != nil {
+
+		var opts []pubsub.SubscribeOption
+		if o, ok := h.(pubsub.HandlerOptions); ok {
+			opts = append(opts, o.Options()...)
+		}
+		if err := r.pubSub.Subscribe(h.EventName(), h.HandlerName(), h.HandlerFunc(), opts...); err != nil {
 			return err
 		}
 	}

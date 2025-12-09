@@ -6,6 +6,7 @@ import (
 	"github.com/lynx-go/lynx-app-template/internal/api"
 	"github.com/lynx-go/lynx-app-template/internal/infra"
 	configpb "github.com/lynx-go/lynx-app-template/internal/pkg/config"
+	"github.com/lynx-go/lynx-app-template/internal/usecase"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
 	"github.com/lynx-go/lynx/boot"
 	"github.com/lynx-go/lynx/contrib/kafka"
@@ -18,6 +19,7 @@ import (
 var ProviderSet = wire.NewSet(
 	boot.New,
 	api.ProviderSet,
+	usecase.ProviderSet,
 	infra.ProviderSet,
 	NewComponents,
 	NewComponentBuilders,

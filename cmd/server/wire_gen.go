@@ -10,7 +10,10 @@ import (
 	"github.com/lynx-go/lynx"
 	"github.com/lynx-go/lynx-app-template/internal/api/events"
 	"github.com/lynx-go/lynx-app-template/internal/api/http"
+	"github.com/lynx-go/lynx-app-template/internal/infra/clients"
+	"github.com/lynx-go/lynx-app-template/internal/infra/repoimpl"
 	"github.com/lynx-go/lynx-app-template/internal/infra/server"
+	"github.com/lynx-go/lynx-app-template/internal/usecase"
 	"github.com/lynx-go/lynx/boot"
 	"log/slog"
 )
@@ -32,10 +35,19 @@ func wireBootstrap(app lynx.Lynx, slogger *slog.Logger) (*boot.Bootstrap, func()
 		return nil, nil, err
 	}
 	helloAPI := http.NewHelloAPI(pubSub)
-	echo := server.NewRouter(helloAPI)
+	dataClients, cleanup, err := clients.NewDataClients(appConfig)
+	if err != nil {
+		return nil, nil, err
+	}
+	usersRepo := repoimpl.NewUserRepo(dataClients)
+	runtimeVars := repoimpl.NewRuntimeVars(dataClients)
+	account := usecase.NewAccount(usersRepo, appConfig, runtimeVars)
+	accountAPI := http.NewAccountAPI(account)
+	echo := server.NewRouter(slogger, appConfig, helloAPI, accountAPI)
 	httpServer := server.NewHTTPServer(appConfig, echo)
 	scheduler, err := server.NewScheduler()
 	if err != nil {
+		cleanup()
 		return nil, nil, err
 	}
 	binder := server.NewKafkaBinderForServer(pubSub, appConfig)
@@ -43,5 +55,6 @@ func wireBootstrap(app lynx.Lynx, slogger *slog.Logger) (*boot.Bootstrap, func()
 	v2 := NewComponentBuilders(binder)
 	bootstrap := boot.New(onStartHooks, onStopHooks, v, v2)
 	return bootstrap, func() {
+		cleanup()
 	}, nil
 }

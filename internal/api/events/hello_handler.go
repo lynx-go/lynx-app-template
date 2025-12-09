@@ -6,6 +6,7 @@ import (
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 	"github.com/lynx-go/lynx-app-template/internal/domain/events"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
+	lxpubsub "github.com/lynx-go/lynx/contrib/pubsub"
 	"github.com/lynx-go/x/encoding/json"
 	"github.com/lynx-go/x/log"
 )
@@ -13,8 +14,14 @@ import (
 type HelloHandler struct {
 }
 
+func (h *HelloHandler) Options() []lxpubsub.SubscribeOption {
+	return []lxpubsub.SubscribeOption{
+		lxpubsub.WithContinueOnError(),
+	}
+}
+
 func (h *HelloHandler) EventName() string {
-	return events.ConsumerNameHello
+	return events.EventNameHello
 }
 
 func (h *HelloHandler) HandlerName() string {
@@ -33,6 +40,7 @@ func (h *HelloHandler) HandlerFunc() pubsub.HandlerFunc {
 }
 
 var _ pubsub.Handler = new(HelloHandler)
+var _ lxpubsub.HandlerOptions = new(HelloHandler)
 
 func NewHelloHandler() *HelloHandler {
 	return &HelloHandler{}

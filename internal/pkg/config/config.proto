@@ -8,19 +8,65 @@ message AppConfig {
   Server server = 1;
   Data data = 2;
   PubSub pubsub = 3;
+  Security security = 4;
 }
+
 
 message Server {
   Http http = 1;
 }
 
+message Security {
+  message Jwt {
+    string secret = 1;
+    int32 token_expiry_sec = 2;
+    string refresh_token_secret = 3;
+    int32 refresh_token_expiry_sec = 4;
+  }
+  Jwt jwt = 1;
+}
+
+
 message Http {
+
+  message Cors {
+    repeated string allow_origins = 1;
+    repeated string allow_methods = 2;
+    repeated string allow_headers = 3;
+    repeated string expose_headers = 4;
+    bool allow_credentials = 5;
+    int32 max_age = 6;
+  }
+
   string addr = 1;
   string timeout = 2;
+  Cors cors = 4;
+}
+
+message Database {
+  message Pool {
+    int32 max_idle_conns = 1;
+    int32 max_open_conns = 2;
+    string conn_max_lifetime = 3;
+    string conn_max_idle_time = 4;
+  }
+
+  string driver = 1;
+  string dialect = 2;
+  string source = 3;
+  bool debug = 4;
+  Pool pool = 5;
+}
+
+message Redis {
+  string addr = 1;
+  string password = 2;
+  int32 db = 3;
 }
 
 message Data {
-
+  Database database = 1;
+  Redis redis = 2;
 }
 
 message PubSub {

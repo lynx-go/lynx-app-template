@@ -52,5 +52,6 @@ func (uid UserID) Valid() bool {
 	return uid != ""
 }
 
-const ContextKeyJWT = "_jwt"
-const ContextKeyCurrentUser = "_current_user"
+const ContextKeyJWT = "lx_jwt"
+
+const ContextKeyCurrentUser = "lx_user"

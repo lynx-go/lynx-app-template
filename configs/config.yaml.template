@@ -1,0 +1,25 @@
+server:
+  http:
+    addr: ":9099"
+    timeout: "30s"
+    cors:
+      allow_origins: [ "*" ]
+      allow_methods: [ "PUT", "GET", "POST", "OPTIONS", "DELETE" ]
+
+security:
+  jwt:
+    secret: "b52c7acf-0d5c-4e5f-9f83-9e2c1a3d4b5f"
+    token_expiry_sec: 3600
+
+data:
+  database:
+    driver: pgx
+    dialect: postgres
+    source: "postgresql://appsets:appsets@localhost:5432/appsets_db?sslmode=disable"
+    debug: true
+
+  redis:
+    addr: 127.0.0.1:6379
+    password: 123456
+    db: 0
+

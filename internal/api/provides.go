@@ -9,6 +9,8 @@ import (
 
 var ProviderSet = wire.NewSet(
 	http.NewHelloAPI,
+	http.NewAccountAPI,
 	tasks.NewDemoTask,
+	tasks.NewRuntimeVarsRefresh,
 	events.NewHelloHandler,
 )

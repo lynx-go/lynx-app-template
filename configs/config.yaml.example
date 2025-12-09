@@ -1,3 +1,0 @@
-server:
-  http:
-    addr: ":6040"

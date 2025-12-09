@@ -1,13 +1,16 @@
 syntax = "proto3";
+
 package api.v1;
-option go_package = "github.com/lynx-go/lynx-app-template/goproto/api/v1;apipb";
+
+option go_package = "github.com/lynx-go/lynx-app-template/genproto/api/v1;apipb";
 
 import "google/rpc/status.proto";
 
-message AuthenticatePasswordRequest {
-  string email = 1;
-  string phone = 2;
-  string password = 3;
+message TokenPasswordRequest {
+  string username = 1;
+  string email = 2;
+  string phone = 3;
+  string password = 4;
 }
 
 message UserInfo {
@@ -19,16 +22,32 @@ message UserInfo {
   string phone = 6;
 }
 
-message AuthenticateResponse {
+message TokenResponse {
   google.rpc.Status error = 1;
-  bool created = 2;
+
   string token = 3;
-  string refresh_token = 4;
-  UserInfo user_info = 5;
+  int64 expires_at = 4;
+  string refresh_token = 5;
+  int64 refresh_token_expires_at = 6;
+  UserInfo user_info = 7;
 }
 
 
 
 message RefreshTokenRequest {
   string token = 1;
+}
+
+message SignUpRequest {
+  string username = 1;
+  string email = 2;
+  string phone = 3;
+  string password = 4;
+  map<string, string> data = 5;
+}
+
+message SignUpResponse {
+  google.rpc.Status error = 1;
+
+  UserInfo user_info = 6;
 }

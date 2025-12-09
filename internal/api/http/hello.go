@@ -2,10 +2,12 @@ package http
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/lynx-go/lynx-app-template/internal/domain/events"
 	"github.com/lynx-go/lynx-app-template/pkg/pubsub"
+	"github.com/lynx-go/lynx-app-template/pkg/session"
 	"github.com/lynx-go/x/log"
 )
 
@@ -28,7 +30,12 @@ type HelloResult struct {
 }
 
 func (api *HelloAPI) Hello(ctx context.Context, req *HelloRequest) (*HelloResult, error) {
-	if err := api.pubsub.Publish(ctx, events.ProducerNameHello, "hello", &events.HelloEvent{
+	userId := session.CurrentUser(ctx)
+	if userId == 0 {
+		return nil, errors.New("not login")
+	}
+	if err := api.pubsub.Publish(ctx, events.EventNameHello, "hello", &events.HelloEvent{
+		User:    userId,
 		Message: req.Message,
 		Time:    time.Now(),
 	}); err != nil {
