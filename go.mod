@@ -14,7 +14,7 @@ require (
 	github.com/labstack/echo-jwt/v4 v4.4.0
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/lynx-go/lynx v0.4.5
-	github.com/lynx-go/lynx/contrib/kafka v0.4.5
+	github.com/lynx-go/lynx/contrib/kafka v0.4.6-0.20251210020515-7a2463680da6
 	github.com/lynx-go/lynx/contrib/pubsub v0.4.3-0.20251209154943-41a348495968
 	github.com/lynx-go/lynx/contrib/schedule v0.4.2
 	github.com/lynx-go/lynx/contrib/zap v0.4.2

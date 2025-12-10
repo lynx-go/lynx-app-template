@@ -13,9 +13,18 @@ type HelloEvent struct {
 	Time    time.Time `json:"time"`
 }
 
-const EventNameHello = "hello"
+type EventName string
 
-var (
-	ProducerNameHello = kafka.ToProducerName(EventNameHello)
-	ConsumerNameHello = kafka.ToConsumerName(EventNameHello)
-)
+func (e EventName) String() string {
+	return string(e)
+}
+
+func (e EventName) ProducerName() string {
+	return kafka.ToProducerName(e.String())
+}
+
+func (e EventName) ConsumerName() string {
+	return kafka.ToConsumerName(e.String())
+}
+
+const EventNameHello EventName = "hello"

@@ -34,7 +34,7 @@ func (api *HelloAPI) Hello(ctx context.Context, req *HelloRequest) (*HelloResult
 	if userId == 0 {
 		return nil, errors.New("not login")
 	}
-	if err := api.pubsub.Publish(ctx, events.EventNameHello, "hello", &events.HelloEvent{
+	if err := api.pubsub.Publish(ctx, events.EventNameHello.ProducerName(), "hello", &events.HelloEvent{
 		User:    userId,
 		Message: req.Message,
 		Time:    time.Now(),

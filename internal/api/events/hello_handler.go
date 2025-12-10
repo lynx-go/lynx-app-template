@@ -21,7 +21,7 @@ func (h *HelloHandler) Options() []lxpubsub.SubscribeOption {
 }
 
 func (h *HelloHandler) EventName() string {
-	return events.EventNameHello
+	return events.EventNameHello.ConsumerName()
 }
 
 func (h *HelloHandler) HandlerName() string {
